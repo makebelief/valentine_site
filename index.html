@@ -48,7 +48,7 @@
             border-radius: 20px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             text-align: center;
-            max-width: 400px;
+            max-width: 90%; /* Adjusted for responsiveness */
             width: 90%;
             position: absolute;
             top: 50%;
@@ -102,7 +102,11 @@
         h1 {
             color: #ff4b6e;
             margin-bottom: 2rem;
-            font-size: 2rem;
+            font-size: 2.5rem; /* Adjusted for larger screens */
+        }
+
+        h2 {
+            font-size: 1.8rem; /* Adjusted for larger screens */
         }
 
         .login-form {
@@ -258,7 +262,7 @@
         }
 
         .gif-container img {
-            max-width: 100%;
+            max-width: 100%; /* Ensure images are responsive */
             height: auto;
             border-radius: 20px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -323,6 +327,55 @@
         #appreciationPage p {
             font-size: 1.2rem;
             color: #333;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem; /* Smaller font size for tablets */
+            }
+
+            h2 {
+                font-size: 1.5rem; /* Smaller font size for tablets */
+            }
+
+            .container {
+                padding: 1.5rem; /* Reduced padding for smaller screens */
+            }
+
+            input {
+                width: 90%; /* Full width on smaller screens */
+            }
+
+            .btn {
+                font-size: 1rem; /* Smaller button text */
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem; /* Smaller font size for mobile */
+            }
+
+            h2 {
+                font-size: 1.2rem; /* Smaller font size for mobile */
+            }
+
+            .container {
+                padding: 1rem; /* Further reduced padding for mobile */
+            }
+
+            .btn {
+                font-size: 0.9rem; /* Even smaller button text */
+            }
+
+            .romantic-message h1 {
+                font-size: 2rem; /* Adjusted for mobile */
+            }
+
+            .romantic-message p {
+                font-size: 1rem; /* Adjusted for mobile */
+            }
         }
     </style>
 </head>
