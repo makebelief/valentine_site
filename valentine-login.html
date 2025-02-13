@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Valentine's Day</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles */
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .page {
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+            background: linear-gradient(45deg, #ff6b6b, #ffd1d1);
+            transition: transform 1s ease;
+        }
+
+        #loginPage {
+            z-index: 2;
+        }
+
+        #flowerPage {
+            transform: translateY(100%);
+            z-index: 1;
+        }
+
+        #appreciationPage {
+            transform: translateY(100%);
+            z-index: 1;
+        }
+
+        .slide-up {
+            transform: translateY(-100%) !important;
+        }
+
+        .slide-up-complete {
+            transform: translateY(0) !important;
+        }
+
+        /* Login page styles */
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        /* Hearts animation */
+        .hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            transform: rotate(45deg);
+            animation: heartFloat 15s linear infinite;
+            opacity: 0.3;
+        }
+
+        .heart:before,
+        .heart:after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .heart:before {
+            left: -10px;
+        }
+
+        .heart:after {
+            top: -10px;
+        }
+
+        @keyframes heartFloat {
+            0% { transform: translateY(100vh) rotate(45deg); }
+            100% { transform: translateY(-100vh) rotate(45deg); }
+        }
+
+        /* Login form styles */
+        h1 {
+            color: #ff4b6e;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .login-form {
+            margin-bottom: 1rem;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: center;
+        }
+
+        input {
+            width: 80%;
+            padding: 0.8rem;
+            border: 2px solid #ffd1d1;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            text-align: center;
+        }
+
+        input:focus {
+            border-color: #ff4b6e;
+        }
+
+        .validation-message {
+            color: #ff4b6e;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            visibility: hidden;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-yes {
+            background: #ff4b6e;
+            color: white;
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.1);
+            background: #ff3355;
+        }
+
+        .btn-yes.disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-yes.disabled:hover {
+            transform: none;
+            background: #cccccc;
+        }
+
+        .btn-no {
+            background: rgb(184, 182, 182);
+            color: #fff;
+            position: relative;
+        }
+
+        .music-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.8rem 2rem;
+            font-size: 1.2rem;
+            color: white;
+            background: linear-gradient(45deg, #ff4b6e, #ff3355);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 0 10px rgba(255, 75, 110, 0.5);
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 75, 110, 0.8);
+        }
+
+        /* Flower page styles */
+        .romantic-message {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            max-width: 80%;
+            opacity: 0;
+            transition: opacity 1s ease 1s;
+        }
+
+        .show-message {
+            opacity: 1;
+        }
+
+        .romantic-message h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
+                         -1px -1px 0 rgba(255, 255, 255, 0.3);
+            letter-spacing: 2px;
+        }
+
+        .romantic-message p {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0 1rem;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .gif-container {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            text-align: center;
+            max-width: 100%;
+            padding: 0 20px;
+            opacity: 0;
+            transition: opacity 1s ease 1.5s;
+        }
+
+        .show-gif {
+            opacity: 1;
+        }
+
+        .gif-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        #visitorName {
+            background: linear-gradient(90deg, #fff, #ffd1d1, #fff);
+            background-size: 200% auto;
+            color: #fff;
+            background-clip: text;
+            -webkit-background-clip: text;
+            animation: shine 3s linear infinite;
+            padding: 0 5px;
+        }
+
+        @keyframes shine {
+            0% { background-position: -100%; }
+            100% { background-position: 200%; }
+        }
+
+        /* Countdown Styles */
+        .countdown {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Great Vibes', cursive;
+            font-size: 3rem;
+            color: #ff4b6e;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.7);
+            padding: 1rem 2rem;
+            border-radius: 20px;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .show-countdown {
+            opacity: 1;
+        }
+
+        /* Appreciation Page Styles */
+        #appreciationPage {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+
+        #appreciationPage h1 {
+            color: #ff4b6e;
+            font-size: 2.5rem;
+        }
+
+        #appreciationPage p {
+            font-size: 1.2rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="page">
+        <div class="hearts">
+            <div class="heart" style="left: 10%; animation-delay: 0s"></div>
+            <div class="heart" style="left: 30%; animation-delay: 3s"></div>
+            <div class="heart" style="left: 50%; animation-delay: 6s"></div>
+            <div class="heart" style="left: 70%; animation-delay: 9s"></div>
+            <div class="heart" style="left: 90%; animation-delay: 12s"></div>
+        </div>
+
+        <div class="container">
+            <h1>Login to My Heart</h1>
+            
+            <div class="login-form">
+                <div class="input-group">
+                    <input type="text" id="nameInput" placeholder="Enter your name" required>
+                </div>
+                <div class="validation-message" id="validationMessage">Please enter your name to proceed</div>
+            </div>
+
+            <button class="music-btn" onclick="playMusic()">🎵 Play Love Song</button>
+
+            <h2>Would you be my Valentine? 💝</h2>
+            
+            <div class="buttons">
+                <button class="btn btn-yes disabled" id="yesBtn" onclick="navigate()">Yes!</button>
+                <button class="btn btn-no" id="noBtn" onmouseover="escape(event)">No</button>
+            </div>
+            
+            <audio id="loveSong" src="your-music-file.mp3" loop></audio>
+        </div>
+    </div>
+
+    <!-- Flower Page -->
+    <div id="flowerPage" class="page">
+        <div class="hearts">
+            <div class="heart" style="left: 10%; animation-delay: 0s"></div>
+            <div class="heart" style="left: 30%; animation-delay: 3s"></div>
+            <div class="heart" style="left: 50%; animation-delay: 6s"></div>
+            <div class="heart" style="left: 70%; animation-delay: 9s"></div>
+            <div class="heart" style="left: 90%; animation-delay: 12s"></div>
+        </div>
+
+        <div class="romantic-message" id="romanticMessage">
+            <h1>My Dearest <span id="visitorName"></span></h1>
+            <p>In the garden of love, you're the most beautiful flower that blooms. Your presence makes my heart dance with joy, and your smile illuminates my world. Be mine forever, my sweet Valentine. 🌹</p>
+        </div>
+
+        <div class="gif-container" id="gifContainer">
+            <img src="https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif" alt="Bear Kisses">
+        </div>
+
+        <!-- Countdown Display -->
+        <div class="countdown" id="countdown">10</div>
+    </div>
+
+    <!-- Appreciation Page -->
+    <div id="appreciationPage">
+        <h1>Thank You!</h1>
+        <p>Your love means the world to me. Happy Valentine's Day! 💖</p>
+    </div>
+
+    <script>
+        function playMusic() {
+            const music = document.getElementById('loveSong');
+            if (music.paused) {
+                music.play();
+            } else {
+                music.pause();
+            }
+        }
+
+        function navigate() {
+            const name = nameInput.value.trim();
+            if (name === '') {
+                validationMessage.style.visibility = 'visible';
+                return;
+            }
+
+            // Update visitor name
+            document.getElementById('visitorName').textContent = name;
+
+            // Slide animation
+            document.getElementById('loginPage').classList.add('slide-up');
+            document.getElementById('flowerPage').classList.add('slide-up-complete');
+
+            // Show message and gif with delay
+            setTimeout(() => {
+                document.getElementById('romanticMessage').classList.add('show-message');
+                document.getElementById('gifContainer').classList.add('show-gif');
+                startCountdown(); // Start countdown after showing the message
+            }, 1000);
+        }
+
+        function startCountdown() {
+            let countdownValue = 10; // Set countdown time in seconds
+            const countdownElement = document.getElementById('countdown');
+            countdownElement.classList.add('show-countdown');
+
+            const countdownInterval = setInterval(() => {
+                countdownElement.textContent = countdownValue;
+                countdownValue--;
+
+                if (countdownValue < 0) {
+                    clearInterval(countdownInterval);
+                    showAppreciationPage(); // Show appreciation page
+                }
+            }, 1000);
+        }
+
+        function showAppreciationPage() {
+            document.getElementById('flowerPage').classList.add('slide-up');
+            document.getElementById('appreciationPage').style.display = 'block';
+            document.getElementById('appreciationPage').classList.add('slide-up-complete');
+        }
+
+        function escape(event) {
+            const btn = document.getElementById('noBtn');
+            const container = document.querySelector('.container');
+            const containerRect = container.getBoundingClientRect();
+            
+            const newX = Math.random() * (containerRect.width - btn.offsetWidth);
+            const newY = Math.random() * (containerRect.height - btn.offsetHeight);
+            
+            btn.style.position = 'absolute';
+            btn.style.left = `${newX}px`;
+            btn.style.top = `${newY}px`;
+        }
+
+        const nameInput = document.getElementById('nameInput');
+        const yesBtn = document.getElementById('yesBtn');
+        const validationMessage = document.getElementById('validationMessage');
+
+        nameInput.addEventListener('input', function() {
+            if (this.value.trim() !== '') {
+                yesBtn.classList.remove('disabled');
+                validationMessage.style.visibility = 'hidden';
+            } else {
+                yesBtn.classList.add('disabled');
+                validationMessage.style.visibility = 'visible';
+            }
+        });
+
+        // Create floating hearts
+        function createHearts() {
+            const heartsContainers = document.querySelectorAll('.hearts');
+            
+            heartsContainers.forEach(container => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.style.left = Math.random() * 100 + '%';
+                container.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 15000);
+            });
+        }
+
+        setInterval(createHearts, 3000);
+    </script>
+</body>
+</html>
